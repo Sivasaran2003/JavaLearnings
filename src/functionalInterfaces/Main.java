@@ -1,3 +1,8 @@
+package functionalInterfaces;
+
+import functionalInterfaces.A;
+import functionalInterfaces.B;
+
 import java.util.ArrayList;
 
 public class Main {
