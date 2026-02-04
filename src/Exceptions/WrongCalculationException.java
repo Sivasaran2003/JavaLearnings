@@ -1,5 +1,5 @@
 package Exceptions;
 
-public class WrongCalculationException extends Exception{
+public class WrongCalculationException extends RuntimeException{
 
 }
