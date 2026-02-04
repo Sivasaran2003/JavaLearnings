@@ -2,6 +2,7 @@ package Exceptions;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Main {
 
@@ -18,6 +19,8 @@ public class Main {
             System.out.println(e.getMessage());
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        } finally {
+            System.out.println();
         }
     }
 
@@ -28,7 +31,8 @@ public class Main {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        int a = 1;
+        Scanner s = new Scanner(System.in);
+        int a = s.nextInt();
         a++;
         if(a != 2) {
             throw new WrongCalculationException(); // must be included in header signature
@@ -62,6 +66,5 @@ public class Main {
 //        }
 
         new Main().method3();
-
     }
 }
