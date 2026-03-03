@@ -167,7 +167,7 @@ public class Main {
         
         // Using flatMap to filter and map in one step
         List<String> values = list.stream()
-                .flatMap(opt -> opt.map(List::of).orElse(List.of()))
+                .flatMap(opt -> opt.map(List::of).orElse(List.of()).stream())
                 .toList();
         System.out.println("Values using flatMap: " + values);
         

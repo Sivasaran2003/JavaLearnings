@@ -6,3 +6,4 @@ import java.util.ArrayList;
 public interface B {
     void add(int a, int b);
 }
+
