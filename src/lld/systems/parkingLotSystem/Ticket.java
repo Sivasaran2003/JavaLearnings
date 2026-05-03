@@ -1,25 +1,29 @@
 package lld.systems.parkingLotSystem;
 
 import lld.systems.parkingLotSystem.enums.TicketStatus;
+import lld.systems.parkingLotSystem.exceptions.InActiveStateTransitionException;
+import lld.systems.parkingLotSystem.parkingLotDesign.Level;
 import lld.systems.parkingLotSystem.parkingLotDesign.ParkingSlot;
 
 import java.time.Instant;
+import java.util.UUID;
 
 public class Ticket {
-    private String ticketId;
-    private Instant startTime;
-    private Instant endTime;
-    private Vehicle vehicle;
+    private final String ticketId;
+    private final Instant startTime;
+    private final Vehicle vehicle;
     private TicketStatus status;
-    private ParkingSlot slot;
+    private final ParkingSlot slot;
     private double totalCost;
+    private final Level level;
 
-    public Ticket(String ticketId, Vehicle vehicle, ParkingSlot slot) {
-        this.ticketId = ticketId;
+    public Ticket(Vehicle vehicle, ParkingSlot slot, Level level) {
+        this.ticketId = "TKT-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();;
         this.vehicle = vehicle;
         this.slot = slot;
         this.startTime = Instant.now();
         this.status = TicketStatus.ACTIVE;
+        this.level = level;
     }
 
     public TicketStatus getStatus() {
@@ -34,13 +38,11 @@ public class Ticket {
         return slot;
     }
 
-    public void complete() {
-        this.status = TicketStatus.COMPLETED;
-    }
-
-    public void markAsPaid(double totalCost) {
+    public void markAsPaid(double totalCost, Instant endTime) throws InActiveStateTransitionException {
+        if (this.status != TicketStatus.ACTIVE) {
+            throw new InActiveStateTransitionException("State Transition to PAID, but current state is not in ACTIVE");
+        }
         this.totalCost = totalCost;
-        this.endTime = Instant.now();
         this.status = TicketStatus.PAID;
     }
 
@@ -50,5 +52,16 @@ public class Ticket {
 
     public String getTicketId() {
         return ticketId;
+    }
+
+    public Level getLevel() {
+        return this.level;
+    }
+
+    public void complete() throws InActiveStateTransitionException {
+        if(this.status != TicketStatus.PAID) {
+            throw new InActiveStateTransitionException("State Transition to COMPLETED, but current state is not in PAID");
+        }
+        this.status = TicketStatus.COMPLETED;
     }
 }
