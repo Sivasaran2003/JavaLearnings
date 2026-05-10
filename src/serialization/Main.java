@@ -21,8 +21,6 @@ public class Main {
         System.out.println(s22.toString());
         oin.close();
         out.close();
-
-
     }
 
 }
